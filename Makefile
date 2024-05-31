@@ -306,6 +306,7 @@ platform-all:
 		platform-neutral \
 		platform-openbsd-x64 \
 		platform-sunos-x64 \
+		platform-wasm-wasi \
 		platform-wasm \
 		platform-win32-arm64 \
 		platform-win32-ia32 \
@@ -328,7 +329,7 @@ platform-unixlike: version-go
 	@test -n "$(GOARCH)" || (echo "The environment variable GOARCH must be provided" && false)
 	@test -n "$(NPMDIR)" || (echo "The environment variable NPMDIR must be provided" && false)
 	node scripts/esbuild.js "$(NPMDIR)/package.json" --version
-	CGO_ENABLED=0 GOOS="$(GOOS)" GOARCH="$(GOARCH)" go build $(GO_FLAGS) -o "$(NPMDIR)/bin/esbuild" ./cmd/esbuild
+	CGO_ENABLED=0 GOOS="$(GOOS)" GOARCH="$(GOARCH)" go build $(GO_FLAGS) -o "$(NPMDIR)/bin/esbuild$(EXTENSION)" ./cmd/esbuild
 
 platform-android-x64: platform-wasm
 	node scripts/esbuild.js npm/@esbuild/android-x64/package.json --version
@@ -389,6 +390,9 @@ platform-linux-s390x:
 
 platform-sunos-x64:
 	@$(MAKE) --no-print-directory GOOS=illumos GOARCH=amd64 NPMDIR=npm/@esbuild/sunos-x64 platform-unixlike
+
+platform-wasm-wasi:
+	@$(MAKE) --no-print-directory GOOS=wasip1 GOARCH=wasm NPMDIR=npm/@esbuild/wasm-wasi platform-unixlike EXTENSION=.wasm
 
 platform-wasm: esbuild
 	node scripts/esbuild.js npm/esbuild-wasm/package.json --version

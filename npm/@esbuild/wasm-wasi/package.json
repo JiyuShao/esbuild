@@ -1,0 +1,20 @@
+{
+  "name": "@esbuild/wasm-wasi",
+  "version": "0.21.4",
+  "description": "The cross-platform WebAssembly WASI binary for esbuild, a JavaScript bundler.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evanw/esbuild.git"
+  },
+  "license": "MIT",
+  "preferUnplugged": true,
+  "engines": {
+    "node": ">=12"
+  },
+  "os": [
+    "wasip1"
+  ],
+  "cpu": [
+    "wasm"
+  ]
+}
